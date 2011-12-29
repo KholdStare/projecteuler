@@ -1,16 +1,4 @@
 
-def is_prime(a, primes):
-    """ Returns true if number is a prime. Relies on a set of primes,
-    and thus needs to be called on numbers in order."""
-    if len(primes) == 0:
-        return True
-
-    for p in primes:
-        if a % p == 0:
-            return False
-
-    return True
-
 def gen_fibonacci():
     """Generates fibonacci numbers as 1, 1, 2, 3, 5 ..."""
     a = 0
@@ -42,7 +30,7 @@ def gen_prime_numbers(end = -1):
                 
 
 def gen_factorization(n):
-    """Given a number generate the numbers that make up the prime factorization
+    """Given a number, generate the numbers that make up the prime factorization
     of n """
     factorization = []
 
