@@ -10,7 +10,7 @@ class TestSolution(unittest.TestCase):
         self.assertEqual(29, sol.main(13195))
 
     def test_1(self):
-        self.assertEqual(70, sol.main(600851475143))
+        self.assertEqual(6857, sol.main(600851475143))
 
 if __name__ == '__main__':
     unittest.main()
