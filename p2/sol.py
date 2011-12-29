@@ -1,24 +1,21 @@
 #!/usr/bin/python
+# allow importing from utils
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../utils")
 
-limit = 4e6
+from numutils import gen_fibonacci
 
-# fibonacci generator
-def gen_fibonacci():
-    a = 0
-    b = 1
-    while 1 == 1:
-        c = a + b
-        yield c
-        a = b
-        b = c
+def main(limit):
+    result = 0
+    for f in gen_fibonacci():
+        if f > limit:
+            break
 
-result = 0
-for f in gen_fibonacci():
-    if f > limit:
-        break
+        if f % 2 == 0:
+            result += f
 
-    if f % 2 == 0:
-        result += f
+    return result
 
-print result
-
+if __name__ == "__main__":
+    print main(4e6)

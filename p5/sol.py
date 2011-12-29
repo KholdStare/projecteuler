@@ -54,8 +54,6 @@ def main(number):
             for dPrime in countDict.iterkeys():
                 primeUsage[dPrime] = max(countDict[dPrime], primeUsage[dPrime])
 
-    print primeUsage
-
     result = 1
     for key in primeUsage:
         result *= (key ** primeUsage[key])

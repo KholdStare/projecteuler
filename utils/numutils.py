@@ -10,3 +10,14 @@ def is_prime(a, primes):
             return False
 
     return True
+
+def gen_fibonacci():
+    """Generates fibonacci numbers as 1, 1, 2, 3, 5 ..."""
+    a = 0
+    b = 1
+    yield b
+    while 1 == 1:
+        c = a + b
+        yield c
+        a = b
+        b = c
