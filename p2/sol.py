@@ -2,7 +2,7 @@
 
 limit = 4e6
 
-# use generator
+# fibonacci generator
 def gen_fibonacci():
     a = 0
     b = 1
