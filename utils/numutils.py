@@ -38,15 +38,15 @@ def gen_prime_numbers(end = -1):
     """Generates prime numbers."""
     yield 2
     yield 3
-    prime_list = [2, 3]
+    primeList = [2, 3]
     for n in gen_natural_numbers(5, end, 6):
-        if is_prime(n, prime_list):
-            prime_list.append(n)
+        if is_prime(n, primeList):
+            primeList.append(n)
             yield n
 
         n=n+2
-        if is_prime(n, prime_list) and (end < 0 or n <= end):
-            prime_list.append(n)
+        if is_prime(n, primeList) and (end < 0 or n <= end):
+            primeList.append(n)
             yield n
                 
 def gen_triangle(end = -1):
@@ -77,12 +77,56 @@ def gen_subset(bigList):
     for indexSet in gen_sequence_to_n(len(bigList)):
         yield [ bigList[i] for i in indexSet ]
 
+def extend_primes(primeList, end):
+    """Given list of primes, extend to end. Modifies in place"""
+    if len(primeList) == 0:
+        lastPrime = 1
+    else:
+        lastPrime = primeList[-1]
 
-def gen_factorization(n):
+    if lastPrime >= end:
+        return # dont need to do anything
+
+    if lastPrime < 2:
+        primeList.append(2)
+    if lastPrime < 3:
+        primeList.append(3)
+
+    lastPrime = primeList[-1]
+
+    # find where to resume searchng for primes
+    if lastPrime > 3 and lastPrime % 6 == 5:
+        n = lastPrime+2
+        if is_prime(n, primeList):
+            primeList.append(n)
+        startPoint = lastPrime+6
+    elif lastPrime == 3:
+        startPoint = 5
+    else:
+        startPoint = lastPrime+4
+    
+    # start finding primes
+    for n in xrange(startPoint, end, 6):
+        if is_prime(n, primeList):
+            primeList.append(n)
+
+        n=n+2
+        if is_prime(n, primeList) and n <= end:
+            primeList.append(n)
+
+
+
+def gen_factorization(n, primes = None):
     """Given a number generate the numbers that make up the prime factorization
     of n """
+    bound = int(n ** 0.5)+1
+    if primes == None:
+        primeIterable = gen_prime_numbers(bound)
+    else:
+        primeIterable = primes
+        extend_primes(primes, bound)
 
-    for p in gen_prime_numbers(int(n ** 0.5)+1):
+    for p in primeIterable:
         if p*p > n: break
         while n % p == 0:
             yield p
