@@ -49,25 +49,34 @@ def gen_prime_numbers(end = -1):
             prime_list.append(n)
             yield n
                 
-def gen_divisors(n):
-    """Given a number generate all divisors of that number"""
-
-    yield 1
-    if n == 1:
-        return
-
-    for i in xrange(2, n//2+1):
-        if n % i == 0:
-            yield i
-    
-    yield n
-
 def gen_triangle(end = -1):
     """Generate triangle numbers: 1 + 2 + 3 + ..."""
     n = 0
     for i in gen_natural_numbers(1, end):
         n += i
         yield n
+
+def gen_sequence_to_n(n):
+    """Given n, generate a list of numbers from 0 to n non-inclusive,
+    in ascending order, of all sizes."""
+    if n < 1:
+        return
+    elif n == 1:
+        yield [0]
+    else:
+        yield [n-1]
+        for seq in gen_sequence_to_n(n-1):
+            newSeq = seq[:]
+            yield seq
+            newSeq.append(n-1)
+            yield newSeq
+
+
+def gen_subset(bigList):
+    """Given some list of elements, generate all subsets of the list."""
+    for indexSet in gen_sequence_to_n(len(bigList)):
+        yield [ bigList[i] for i in indexSet ]
+
 
 def gen_factorization(n):
     """Given a number generate the numbers that make up the prime factorization
@@ -80,3 +89,12 @@ def gen_factorization(n):
             n //= p
     if n > 1: yield n
 
+def count_occurances(numIter):
+    countDict = {}
+    for n in numIter:
+        if n in countDict:
+            countDict[n] += 1
+        else:
+            countDict[n] = 1
+
+    return countDict

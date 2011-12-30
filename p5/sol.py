@@ -4,17 +4,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../utils")
 
-from numutils import gen_factorization
-
-def count_occurances(numList):
-    countDict = {}
-    for n in numList:
-        if n in countDict:
-            countDict[n] += 1
-        else:
-            countDict[n] = 1
-
-    return countDict
+from numutils import gen_factorization, count_occurances
 
 def main(number):
     nums_to_consider = range(2, number+1)
