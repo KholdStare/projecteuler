@@ -3,7 +3,7 @@
 set -e
 set -u
 
-for testFile in ./p?/test.py
+for testFile in ./*/test.py
 do
     echo
     echo '===================================================================================='

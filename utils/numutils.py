@@ -1,4 +1,19 @@
 
+def is_prime(a, primes):
+    """ Returns true if number is a prime. Relies on a set of primes,
+    and thus needs to be called on numbers in order."""
+    if len(primes) == 0:
+        return True
+
+    upperBound = int((a ** 0.5) + 1)
+    for p in primes:
+        if a % p == 0:
+            return False
+        if p > upperBound:
+            return True
+
+    return True
+
 def gen_fibonacci():
     """Generates fibonacci numbers as 1, 1, 2, 3, 5 ..."""
     a = 0
@@ -14,7 +29,8 @@ def gen_natural_numbers(start = 0, end = -1, incr = 1):
     """Generates natural numbers from start to end, with increments of inc.
     If end is less than 0, generates infinitely."""
     i = start
-    while end < 0 or i <= end:
+    sign = incr // abs(incr)
+    while end < 0 or i*sign <= end*sign:
         yield i
         i += incr
 
@@ -23,14 +39,19 @@ def gen_prime_numbers(end = -1):
     yield 2
     yield 3
     prime_list = [2, 3]
-    for n in gen_natural_numbers(5, end, 2):
+    for n in gen_natural_numbers(5, end, 6):
         if is_prime(n, prime_list):
+            prime_list.append(n)
+            yield n
+
+        n=n+2
+        if is_prime(n, prime_list) and (end < 0 or n <= end):
             prime_list.append(n)
             yield n
                 
 
 def gen_factorization(n):
-    """Given a number, generate the numbers that make up the prime factorization
+    """Given a number generate the numbers that make up the prime factorization
     of n """
     factorization = []
 
