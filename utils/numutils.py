@@ -49,11 +49,29 @@ def gen_prime_numbers(end = -1):
             prime_list.append(n)
             yield n
                 
+def gen_divisors(n):
+    """Given a number generate all divisors of that number"""
+
+    yield 1
+    if n == 1:
+        return
+
+    for i in xrange(2, n//2+1):
+        if n % i == 0:
+            yield i
+    
+    yield n
+
+def gen_triangle(end = -1):
+    """Generate triangle numbers: 1 + 2 + 3 + ..."""
+    n = 0
+    for i in gen_natural_numbers(1, end):
+        n += i
+        yield n
 
 def gen_factorization(n):
     """Given a number generate the numbers that make up the prime factorization
     of n """
-    factorization = []
 
     for p in gen_prime_numbers(int(n ** 0.5)+1):
         if p*p > n: break
