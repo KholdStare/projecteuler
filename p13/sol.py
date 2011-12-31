@@ -6,6 +6,7 @@ def main (filename):
     inputFile = open(filename, 'r')
     # list of lists, indexed like matrix. rows then cols
     grid  = [ [ int(d) for d in list(s.strip()) ] for s in inputFile.readlines() ]
+    inputFile.close()
 
     result = []
     while 1 == 1:

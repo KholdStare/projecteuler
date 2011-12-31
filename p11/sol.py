@@ -53,6 +53,7 @@ def main (filename):
     inputFile = open(filename, 'r')
     # list of lists, indexed like matrix. rows then cols
     grid  = [ [ int(d) for d in s.strip().split() ] for s in inputFile.readlines() ]
+    inputFile.close()
 
     # all directions
     iIncs = [1, 1, 0, 1]
