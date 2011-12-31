@@ -5,7 +5,7 @@ import os
 import operator
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../utils")
 
-from numutils import gen_triangle, gen_factorization, gen_sequence_to_n, gen_subset, count_occurances
+from numutils import gen_triangle, gen_factorization, count_occurances
 
 def count_divisors(n, primeList):
     """Get prime factorization, and count all possible combination of those
@@ -15,13 +15,8 @@ def count_divisors(n, primeList):
     # just the counts of the prie factors, not the facors themselves
     # we dont care about them anymore
     countList = countDict.values()
-    
-    count = 1
-    # need to generate every possible combination of these counts and find their products
-    for combination in gen_subset(countList):
-        count += reduce(operator.mul, combination, 1)
 
-    return count
+    return reduce(operator.mul, (d+1 for d in countList) , 1)
 
 def main (maxDivisors):
     primeList = []

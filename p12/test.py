@@ -6,6 +6,12 @@ class TestSolution(unittest.TestCase):
     def setUp(self):
         pass
 
+    def test_count_54(self):
+        self.assertEqual(8, sol.count_divisors(54, None))
+
+    def test_count_huge(self):
+        self.assertEqual(576, sol.count_divisors(76576500, None))
+
     def test_5(self):
         self.assertEqual(28, sol.main(5))
     
