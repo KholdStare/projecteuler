@@ -1,4 +1,3 @@
-
 def is_prime(a, primes):
     """ Returns true if number is a prime. Relies on a set of primes,
     and thus needs to be called on numbers in order."""
