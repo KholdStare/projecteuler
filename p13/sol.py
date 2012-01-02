@@ -1,6 +1,9 @@
 #!/usr/bin/python
 import os
+import sys
 thisDir = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(thisDir + "/../utils")
+import bigops
 
 def main (filename):
     inputFile = open(filename, 'r')
@@ -8,19 +11,7 @@ def main (filename):
     grid  = [ [ int(d) for d in list(s.strip()) ] for s in inputFile.readlines() ]
     inputFile.close()
 
-    result = []
-    while 1 == 1:
-        column = [ line.pop() for line in grid if len(line) > 0 ]
-        if len(column) == 0:
-            break
-
-        columnSum =  sum(column)
-        # get last digit of sum and append it to result
-        result.insert(0, str(columnSum)[-1])
-        # put remaining digits as another number to be added next time
-        grid.append([ int(d) for d in list(str(columnSum)[:-1]) ] )
-
-    return "".join(result)
+    return "".join([str(d) for d in bigops.sum_sequence(grid)])
 
 if __name__ == "__main__":
     print main(thisDir + "/input")

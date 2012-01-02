@@ -1,6 +1,91 @@
 import seriesutils
 import combinatorics
+import bigops
 import unittest
+
+class TestBigOps(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+# conversion operations ==================================================
+    def test_conversion_to_list(self):
+        for num in xrange(0, 1000, 13):
+            self.assertEqual(num, bigops.list_to_int(bigops.int_to_list(num)))
+
+
+# multiplication operation ===============================================
+    def test_mul_trivial(self):
+        self.assertEqual(1, bigops.list_to_int(bigops.mul([1], [1])))
+        for num in xrange(0, 1000, 13):
+            self.assertEqual(num, bigops.list_to_int(\
+                                    bigops.mul(\
+                                      bigops.int_to_list(num), [1] ) ) )
+
+    def test_mul_simple(self):
+        a = 123
+        b = 456
+        self.assertEqual(a*b, bigops.list_to_int(bigops.mul(bigops.int_to_list(a), \
+                                                            bigops.int_to_list(b))))
+
+    def test_mul_sequence_trivial(self):
+        self.assertEqual(1, bigops.list_to_int(bigops.mul_sequence([])))
+        for num in xrange(0, 1000, 13):
+            self.assertEqual(num, bigops.list_to_int(\
+                                    bigops.mul_sequence(\
+                                      [bigops.int_to_list(num)] ) ) )
+
+    def test_mul_sequence_factorial(self):
+        n = 10
+        self.assertEqual(combinatorics.factorial(n), \
+                         bigops.list_to_int(\
+                            bigops.mul_sequence(( bigops.int_to_list(d) for d in xrange(1, n+1) )) ) )
+
+# summation operation ====================================================
+    def test_sum_sequence_trivial(self):
+        self.assertEqual(0, bigops.list_to_int(bigops.sum_sequence([])))
+        for num in xrange(0, 1000, 13):
+            self.assertEqual(num, bigops.list_to_int(\
+                                    bigops.sum_sequence(\
+                                      [bigops.int_to_list(num)] ) ) )
+
+    def test_sum_sequence_triangle(self):
+        n = 100 # 100th triangle number
+        self.assertEqual(seriesutils.partial_sum(n),
+                         bigops.list_to_int(\
+                                    bigops.sum_sequence(\
+                                       ( bigops.int_to_list(x) for x in xrange(1, n+1) ) ) ) )
+                                    
+    def test_sum_sequence_resolve_carries(self):
+        """An interesting side effect of the implementation, is that carries can be stored
+        in the digit cells as numbers bigger than 10, and propagated afterwards."""
+        result = 56088
+        convolution = [ 4, 13, 28, 27, 18 ]
+        self.assertEqual(result,
+                         bigops.list_to_int(\
+                            bigops.sum_sequence(\
+                                [ convolution, [0] ] ) ) )
+    
+    def test_resolve_carries(self):
+        """An interesting side effect of the implementation, is that carries can be stored
+        in the digit cells as numbers bigger than 10, and propagated afterwards."""
+        result = 56088
+        convolution = [ 4, 13, 28, 27, 18 ]
+        bigops.resolve_carries(convolution)
+        self.assertEqual(result, bigops.list_to_int(convolution) )
+
+    def test_add_no_carries(self):
+        """Tests if addition with no carries works correctly."""
+        terms = [        [ 6, 12, 18 ], \
+                     [ 5, 10, 15,  0 ], \
+                 [ 4,  8, 12,  0,  0 ] ]
+        result = [ 4, 13, 28, 27, 18 ]
+
+        acc = bigops.add_no_carry(terms[0], terms[1])
+        acc = bigops.add_no_carry(acc, terms[2])
+
+        for t in zip(result, acc):
+            self.assertEqual(t[0], t[1])
 
 class TestCombinatorics(unittest.TestCase):
 
