@@ -33,3 +33,24 @@ def falling_factorial(x, n):
 
 def rising_factorial(x, n):
     return reduce(operator.mul, ( x + j for j in xrange(0, n) ), 1)
+
+def gen_sequence_to_n(n):
+    """Given n, generate a list of numbers from 0 to n non-inclusive,
+    in ascending order, of all sizes."""
+    if n < 1:
+        return
+    elif n == 1:
+        yield [0]
+    else:
+        yield [n-1]
+        for seq in gen_sequence_to_n(n-1):
+            newSeq = seq[:]
+            yield seq
+            newSeq.append(n-1)
+            yield newSeq
+
+
+def gen_subset(bigList):
+    """Given some list of elements, generate all subsets of the list."""
+    for indexSet in gen_sequence_to_n(len(bigList)):
+        yield [ bigList[i] for i in indexSet ]

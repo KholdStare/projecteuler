@@ -137,6 +137,13 @@ class TestCombinatorics(unittest.TestCase):
     def test_bell_14(self):
         self.assertEqual(190899322, combinatorics.bell_number(14))
 
+# class TestNumUtils(unittest.TestCase):
+# 
+#     def setUp(self):
+#         pass
+# 
+#     def test_gen_divisors(self):
+#         trueDivisors = set([1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110, 220])
 
 class TestSeriesUtils(unittest.TestCase):
 

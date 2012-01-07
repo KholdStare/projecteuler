@@ -12,7 +12,7 @@ def count_divisors(n, primeList):
     prime factors"""
     countDict = count_occurances(gen_factorization(n, primeList))
 
-    # just the counts of the prie factors, not the facors themselves
+    # just the counts of the prime factors, not the facors themselves
     # we dont care about them anymore
     countList = countDict.values()
 

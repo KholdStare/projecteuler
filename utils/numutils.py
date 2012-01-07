@@ -1,3 +1,5 @@
+import combinatorics
+
 def is_prime(a, primes):
     """ Returns true if number is a prime. Relies on a set of primes,
     and thus needs to be called on numbers in order."""
@@ -55,26 +57,6 @@ def gen_triangle(end = -1):
         n += i
         yield n
 
-def gen_sequence_to_n(n):
-    """Given n, generate a list of numbers from 0 to n non-inclusive,
-    in ascending order, of all sizes."""
-    if n < 1:
-        return
-    elif n == 1:
-        yield [0]
-    else:
-        yield [n-1]
-        for seq in gen_sequence_to_n(n-1):
-            newSeq = seq[:]
-            yield seq
-            newSeq.append(n-1)
-            yield newSeq
-
-
-def gen_subset(bigList):
-    """Given some list of elements, generate all subsets of the list."""
-    for indexSet in gen_sequence_to_n(len(bigList)):
-        yield [ bigList[i] for i in indexSet ]
 
 def extend_primes(primeList, end):
     """Given list of primes, extend to end. Modifies in place"""
@@ -141,3 +123,27 @@ def count_occurances(numIter):
             countDict[n] = 1
 
     return countDict
+
+def _gen_divisors(countList, primeFactors):
+    if len(countList) == 0:
+        yield 1
+        return
+
+    count = countList.pop()
+    prime = primeFactors.pop()
+
+    for div in _gen_divisors(countList, primeFactors):
+        yield div
+        for p in xrange(0, count):
+            div *= prime
+            yield div
+
+
+def gen_divisors(n, primes = None):
+    countDict = count_occurances(gen_factorization(n, primes))
+
+    countList = countDict.values()
+    primeFactors = countDict.keys()
+    return _gen_divisors(countList, primeFactors)
+
+
