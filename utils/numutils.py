@@ -146,4 +146,9 @@ def gen_divisors(n, primes = None):
     primeFactors = countDict.keys()
     return _gen_divisors(countList, primeFactors)
 
+def sum_proper_divisors(n, primes = None):
+    return sum(gen_divisors(n, primes)) - n
 
+def is_amicable(a, primes = None):
+    b = sum_proper_divisors(a, primes)
+    return (a != b) and (sum_proper_divisors(b, primes) == a)

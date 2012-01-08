@@ -1,6 +1,7 @@
 import seriesutils
 import combinatorics
 import bigops
+import numutils
 import unittest
 
 class TestBigOps(unittest.TestCase):
@@ -137,13 +138,16 @@ class TestCombinatorics(unittest.TestCase):
     def test_bell_14(self):
         self.assertEqual(190899322, combinatorics.bell_number(14))
 
-# class TestNumUtils(unittest.TestCase):
-# 
-#     def setUp(self):
-#         pass
-# 
-#     def test_gen_divisors(self):
-#         trueDivisors = set([1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110, 220])
+class TestNumUtils(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def test_sum_prop_divisors(self):
+        self.assertEqual(284, numutils.sum_proper_divisors(220))
+
+    def test_sum_prop_divisors(self):
+        self.assertTrue(numutils.is_amicable(220))
 
 class TestSeriesUtils(unittest.TestCase):
 

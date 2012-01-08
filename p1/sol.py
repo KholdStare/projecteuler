@@ -5,7 +5,7 @@ def multof3or5(num):
 
 def main(limit):
     result = 0
-    for num in range(1,limit):
+    for num in xrange(1,limit):
         if multof3or5(num):
             result += num
 
