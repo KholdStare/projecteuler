@@ -1,4 +1,5 @@
 import combinatorics
+import listutils
 
 def is_prime(a, primes):
     """ Returns true if number is a prime. Relies on a set of primes,
@@ -152,3 +153,43 @@ def sum_proper_divisors(n, primes = None):
 def is_amicable(a, primes = None):
     b = sum_proper_divisors(a, primes)
     return (a != b) and (sum_proper_divisors(b, primes) == a)
+
+def is_abundant(n, primes = None):
+    ans = sum_proper_divisors(n, primes)
+#    if ans > n:
+#        print "abundant: %d, sum %d" % (n, ans)
+    
+    return ans > n
+
+def expand_abundants(end, primes = None,  abundants = [12]):
+    if len(abundants) == 0:
+        abundants = [12]
+        start = 13
+    else:
+        start = abundants[-1] + 1
+
+    for n in xrange(start, end+1):
+        if is_abundant(n, primes):
+            abundants.append(n)
+
+    return abundants
+
+def is_abundant_splittable(n, primes = None, abundants = [12]):
+    """Given number n, return True if it can be witeen as a sum of two abundant numbers."""
+    if abundants[-1] < n - 12:
+        expand_abundants(n, primes, abundants)
+        
+    halfIndex = len(abundants) // 2
+
+    for i in xrange(0, len(abundants)):
+        abundant = abundants[i]
+        if listutils.binary_search(n-abundant, abundants, i, len(abundants)-1) >= 0:
+            return True
+
+        if abundant > (abundants[-1] // 2 ):
+            break
+
+    return False
+
+
+    

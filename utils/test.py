@@ -146,8 +146,11 @@ class TestNumUtils(unittest.TestCase):
     def test_sum_prop_divisors(self):
         self.assertEqual(284, numutils.sum_proper_divisors(220))
 
-    def test_sum_prop_divisors(self):
+    def test_amicable(self):
         self.assertTrue(numutils.is_amicable(220))
+
+    def test_abundant(self):
+        self.assertTrue(numutils.is_abundant(12))
 
 class TestSeriesUtils(unittest.TestCase):
 
