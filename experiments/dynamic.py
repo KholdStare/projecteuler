@@ -66,9 +66,29 @@ def firstCompatibleIndex(intervalList, i):
 
     return j
 
+def optimum(intervalList, i, compatibleIndeces, optArray):
+
+    if i == -1:
+        return 0
+
+    # calculate result if not yet calculated
+    if optArray[i] == 0:
+        p_i = compatibleIndeces[i]
+
+        optArray[i] = max(optimum(intervalList, p_i, compatibleIndeces, optArray) + intervalList[i].value,
+                          optimum(intervalList, i-1, compatibleIndeces, optArray))
+
+    return optArray[i]
+
 def main (intervalList):
     # sort list with ascending end times
     sortedList = sorted(intervalList, key=lambda x: x.end)
+    n = len(sortedList)
+
+    # for each interval store index of first compatible interval
+    compatibleIndeces = [ firstCompatibleIndex(sortedList, i) for i in xrange(0, n) ]
+
+    return optimum(intervalList, n-1, compatibleIndeces, [ 0 for x in xrange(0, n) ])
 
 
 if __name__ == "__main__":
@@ -79,14 +99,5 @@ if __name__ == "__main__":
                      Interval(2, 9, 7),
                      Interval(7, 10, 2),
                      Interval(8, 11, 1) ]
-    print [ x.__str__() for x in intervalList ]
 
-    print '\n'
-    random.shuffle(intervalList)
-    print [ x.__str__() for x in intervalList ]
-
-    print '\n'
-    sortedList = sorted(intervalList, key=lambda x: x.end)
-    print [ x.__str__() for x in sortedList ]
-    print listValue(intervalList)
-
+    print main(intervalList)
