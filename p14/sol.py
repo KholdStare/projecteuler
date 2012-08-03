@@ -35,7 +35,6 @@ def main (limit):
     maxN = 1
     
     for n in xrange(1, int(limit)):
-        print n
         count = count_sequence_steps(n, problem_rule) 
         if count > maxCount:
             maxCount = count
