@@ -74,26 +74,50 @@ class WeightedSchedulingProblem(object):
         self.n = len(intervalList)
         self.compatibleIndeces = [ firstCompatibleIndex(intervalList, i) for i in xrange(0, self.n) ]
 
-        # careful! off by one indexing
+        # careful! off by one indexing so that empty case
+        # has a value 
         self.optArray = [ 0 for x in xrange(0, self.n+1) ]
 
         # construct solution and memoize it
         for i in xrange(0, self.n):
             self.optArray[i+1] = self.calcOptimum(i)
 
+        # reconstruct optimal interval list from optimum value
+
+
+
+
     def calcOptimum(self, i):
         p_i = self.compatibleIndeces[i]
-        return max(self.getOptimum(p_i) + intervalList[i].value,
+        return max(self.getOptimum(p_i) + self.intervalList[i].value,
                           self.getOptimum(i-1))
 
     def getOptimum(self, i):
         return self.optArray[ i+1 ]
 
+    def getOptimumList(self, i=None, acc=[]):
+
+        if i is None:
+            return self.getOptimumList(self.n-1)
+
+        if i < 0:
+            return acc
+
+        # if the optimum value for this index is the same as
+        # for the index below, this interval is not part of the optimal solution
+        if self.getOptimum(i) == self.getOptimum(i-1):
+            return self.getOptimumList(i-1, acc)
+
+        acc.insert(0, self.intervalList[i])
+
+        p_i = self.compatibleIndeces[i]
+        return self.getOptimumList(p_i, acc)
+
 
 def main (intervalList):
     problem = WeightedSchedulingProblem(intervalList)
 
-    return problem.getOptimum(len(intervalList) - 1)
+    return [ i.__str__() for i in problem.getOptimumList(len(intervalList) - 1) ]
 
 
 if __name__ == "__main__":

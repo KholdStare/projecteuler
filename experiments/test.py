@@ -79,5 +79,23 @@ class TestDynamic(unittest.TestCase):
                          dynamic.Interval(8, 11, 1) ]
         self.assertEquals(dynamic.firstCompatibleIndex(intervalList, 5), 2)
 
+##############
+#  Solution  #
+##############
+
+    def test_solution(self):
+        intervalList = [ dynamic.Interval(0, 3, 2),
+                         dynamic.Interval(1, 5, 4),
+                         dynamic.Interval(4, 6, 4),
+                         dynamic.Interval(2, 9, 7),
+                         dynamic.Interval(7, 10, 2),
+                         dynamic.Interval(8, 11, 1) ]
+        problem = dynamic.WeightedSchedulingProblem(intervalList)
+        solutionList = problem.getOptimumList()
+        self.assertEquals(solutionList[0], intervalList[0])
+        self.assertEquals(solutionList[1], intervalList[2])
+        self.assertEquals(solutionList[2], intervalList[4])
+
+
 if __name__ == '__main__':
     unittest.main()
