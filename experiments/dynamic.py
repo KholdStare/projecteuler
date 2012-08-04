@@ -66,29 +66,34 @@ def firstCompatibleIndex(intervalList, i):
 
     return j
 
-def optimum(intervalList, i, compatibleIndeces, optArray):
+class WeightedSchedulingProblem(object):
+    """Represented a weighted interval schedule problem"""
 
-    if i == -1:
-        return 0
+    def __init__(self, intervalList):
+        self.intervalList = sorted(intervalList, key=lambda x: x.end)
+        self.n = len(intervalList)
+        self.compatibleIndeces = [ firstCompatibleIndex(intervalList, i) for i in xrange(0, self.n) ]
 
-    # calculate result if not yet calculated
-    if optArray[i] == 0:
-        p_i = compatibleIndeces[i]
+        # careful! off by one indexing
+        self.optArray = [ 0 for x in xrange(0, self.n+1) ]
 
-        optArray[i] = max(optimum(intervalList, p_i, compatibleIndeces, optArray) + intervalList[i].value,
-                          optimum(intervalList, i-1, compatibleIndeces, optArray))
+        # construct solution and memoize it
+        for i in xrange(0, self.n):
+            self.optArray[i+1] = self.calcOptimum(i)
 
-    return optArray[i]
+    def calcOptimum(self, i):
+        p_i = self.compatibleIndeces[i]
+        return max(self.getOptimum(p_i) + intervalList[i].value,
+                          self.getOptimum(i-1))
+
+    def getOptimum(self, i):
+        return self.optArray[ i+1 ]
+
 
 def main (intervalList):
-    # sort list with ascending end times
-    sortedList = sorted(intervalList, key=lambda x: x.end)
-    n = len(sortedList)
+    problem = WeightedSchedulingProblem(intervalList)
 
-    # for each interval store index of first compatible interval
-    compatibleIndeces = [ firstCompatibleIndex(sortedList, i) for i in xrange(0, n) ]
-
-    return optimum(intervalList, n-1, compatibleIndeces, [ 0 for x in xrange(0, n) ])
+    return problem.getOptimum(len(intervalList) - 1)
 
 
 if __name__ == "__main__":
