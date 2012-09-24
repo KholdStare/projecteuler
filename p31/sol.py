@@ -30,24 +30,6 @@ class Solver(object):
 
     def __str__(self):
         return str(self.cache)
-    
-
-def denomination_combinations( denominations, target ):
-    """ Given a set of denominations, and a target value, calculate
-    the number of possible combinations of denominations that would add
-    up to the target. """
-
-    # cache for dynamic programming
-    # cache[i] is answer for target == i
-    cache = [1] 
-
-    for i in xrange(1, target+1):
-        cache.append(0)
-        
-        for denom in ( d for d in denominations if d <= i ):
-            cache[i] += cache[i-denom]
-
-    return cache[target]
 
 if __name__ == "__main__":
     target = 200
