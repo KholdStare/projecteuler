@@ -1,7 +1,10 @@
 
-def binary_search(val, lst, s, e):
+def binary_search(val, lst, s=0, e=None):
     """Given sorted list in ascending order lst, and starting/ending indeces (inclusive),
     return index where value should be."""
+
+    if e is None:
+        e = len(lst)-1
 
     if val > lst[e] or val < lst[s]:
         return -1
